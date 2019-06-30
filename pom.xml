@@ -1,0 +1,132 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.demo.api</groupId>
+  <artifactId>api-swg-task-management</artifactId>
+  <version>1.0.0</version>
+  
+  <name>A custom project</name>
+
+
+  <properties>
+    <java.version>1.8</java.version>
+    <swagger.codegen.version>2.2.3</swagger.codegen.version>
+    <swagger.version>2.9.2</swagger.version>
+    <swagger.inputSpec>src/main/resources/swagger.yaml</swagger.inputSpec>
+    <swagger.modelPackage>com.demo.api.taskmanagement.swagger.model</swagger.modelPackage>
+    <swagger.apiPackage>com.demo.api.taskmanagement.swagger.api</swagger.apiPackage>
+    <maven.test.skip>true</maven.test.skip>
+  </properties>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.0.1.RELEASE</version>
+    <relativePath /> 
+  </parent>
+  
+  <dependencies>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${swagger.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>${swagger.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-bean-validators</artifactId>
+        <version>${swagger.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+    </dependency>
+  </dependencies>
+  
+  <distributionManagement>
+ 
+    <snapshotRepository>
+        <id>snapshots</id>
+        <name>jfrog.escloud-snapshots</name>
+        <url>${env.MAVEN_REPO_URL}${env.MAVEN_LIB_SNPST_REPO}</url>
+    </snapshotRepository>
+ 
+    <repository>
+        <id>central</id>
+        <name>jfrog.escloud-releases</name>
+        <url>${env.MAVEN_REPO_URL}${env.MAVEN_LIB_RLSE_REPO}</url>
+    </repository>
+         
+</distributionManagement>
+
+  <build>
+
+    <plugins>
+
+      <!-- Generate REST default interface from Swagger spec -->
+      <plugin>
+        <groupId>io.swagger</groupId>
+        <artifactId>swagger-codegen-maven-plugin</artifactId>
+        <version>${swagger.codegen.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${swagger.inputSpec}</inputSpec>
+              <output></output>
+              <addCompileSourceRoot>true</addCompileSourceRoot>
+              <!-- >output>${project.source.directory}</output -->
+              <modelPackage>${swagger.modelPackage}</modelPackage>
+              <apiPackage>${swagger.apiPackage}</apiPackage>
+              <generateApiTests>true</generateApiTests>
+              <generateModelTests>true</generateModelTests>
+              <generateSupportingFiles>false</generateSupportingFiles>
+              <language>spring</language>
+              <configOptions>
+                <sourceFolder>src/gen/java/main</sourceFolder>
+                <dateLibrary>java8</dateLibrary>
+                <interfaceOnly>true</interfaceOnly>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <plugin>
+		  <groupId>org.jfrog.buildinfo</groupId>
+    	  <artifactId>artifactory-maven-plugin</artifactId>
+    	  <version>2.6.1</version>
+    	  <inherited>false</inherited>
+    	  <executions>
+          	  <execution>
+            	  <id>build-info</id>
+            	  <goals>
+                	  <goal>publish</goal>
+            	  </goals>
+            	  <configuration>                          
+                	  <publisher>
+                    	  <contextUrl>${env.MAVEN_REPO_URL}</contextUrl>
+                    	  <username>${env.MVN_REPO_USER}</username>
+                    	  <password>${env.MVN_REPO_PWD}</password>
+                    	  <repoKey>${env.MAVEN_LIB_RLSE_REPO}</repoKey>
+                    	  <snapshotRepoKey>${env.MAVEN_LIB_SNPST_REPO}</snapshotRepoKey>
+                	  </publisher>
+            	  </configuration>
+        	  </execution>
+    	  </executions>
+	  </plugin>
+      
+    </plugins>
+  </build>
+
+</project>
