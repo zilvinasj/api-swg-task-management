@@ -1,0 +1,183 @@
+swagger: "2.0"
+info:
+  description: "Demo Application for task management"
+  version: "1.0.0"
+  title: "Task Management Service"
+  contact:
+    email: "zilvinastj@gmail.com"
+host: "localhost:8080"
+basePath: "/v1"
+tags:
+- name: "Tasks"
+  description: "All task operations"
+schemes:
+- "https"
+- "http"
+paths:
+  /task:
+    post:
+      tags:
+      - "Tasks"
+      summary: "Create a new task"
+      description: ""
+      operationId: "addTask"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Task body"
+        description: "Task object to create"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+      responses:
+        400:
+          description: "Bad Request"
+        200:
+          description: Returns the list of policy documents of a given policy number
+          schema:
+            $ref: '#/definitions/TaskResponse'    
+    put:
+      tags:
+      - "Tasks"
+      summary: "Update an existing task"
+      description: ""
+      operationId: "updateTask"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Task object to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+      responses:
+        200:
+          description: Returns the list of policy documents of a given policy number
+          schema:
+            $ref: '#/definitions/TaskResponse'   
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Task not found"
+    get:
+      tags:
+      - "Tasks"
+      summary: "Find task by ID"
+      description: "Multiple status values can be provided with comma separated strings"
+      operationId: "findTaskById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "Status values that need to be considered for filter"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: Returns the list of policy documents of a given policy number
+          schema:
+            $ref: '#/definitions/TaskResponse'   
+        400:
+          description: "Invalid status value"
+    delete:
+      tags:
+      - "Tasks"
+      summary: "Deletes a task"
+      description: ""
+      operationId: "deleteTask"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "taskId"
+        in: "path"
+        description: "Task id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: Returns the list of policy documents of a given policy number
+          schema:
+            $ref: '#/definitions/TaskResponse'   
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Task not found"
+
+definitions:
+  SubTask:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      taskName:
+        type: "string"
+      timeSpent:
+        type: "integer"
+        format: "int64"
+      taskGroup:
+        type: "string"
+      assignee:
+        type: "string"
+      finished:
+        type: "boolean"
+        default: false
+
+  Task:
+    type: "object"
+    allOf:
+    - $ref: '#/definitions/SubTask'
+    - properties:
+        subTasks:
+          type: "array"
+          items:
+            $ref: '#/definitions/SubTask'
+
+  ResponseWrapper:
+    type: "object"
+    properties:
+      errors:
+        type: "array"
+        items:
+          $ref: "#/definitions/Info"
+      infos:
+        type: "array"
+        items:
+          $ref: "#/definitions/Info"
+
+
+  TaskResponse:
+    type: "object"
+    allOf: 
+    - $ref: '#/definitions/ResponseWrapper'
+    - properties:
+        results:
+          type: "array"
+          items:
+            $ref: '#/definitions/Task'
+
+
+
+            
+  Info:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      description:
+        type: "string"
+      message:
+        type: "string"
+
+
+

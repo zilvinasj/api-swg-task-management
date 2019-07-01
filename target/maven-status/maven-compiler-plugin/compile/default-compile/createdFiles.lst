@@ -1,0 +1,6 @@
+com/demo/api/taskmanagement/swagger/api/TaskApi.class
+com/demo/api/taskmanagement/swagger/model/TaskResponse.class
+com/demo/api/taskmanagement/swagger/model/Info.class
+com/demo/api/taskmanagement/swagger/model/SubTask.class
+com/demo/api/taskmanagement/swagger/model/Task.class
+com/demo/api/taskmanagement/swagger/model/ResponseWrapper.class
