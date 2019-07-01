@@ -50,22 +50,7 @@
       <artifactId>joda-time</artifactId>
     </dependency>
   </dependencies>
-  
-  <distributionManagement>
  
-    <snapshotRepository>
-        <id>snapshots</id>
-        <name>jfrog.escloud-snapshots</name>
-        <url>${env.MAVEN_REPO_URL}${env.MAVEN_LIB_SNPST_REPO}</url>
-    </snapshotRepository>
- 
-    <repository>
-        <id>central</id>
-        <name>jfrog.escloud-releases</name>
-        <url>${env.MAVEN_REPO_URL}${env.MAVEN_LIB_RLSE_REPO}</url>
-    </repository>
-         
-</distributionManagement>
 
   <build>
 
@@ -101,30 +86,6 @@
           </execution>
         </executions>
       </plugin>
-      
-      <plugin>
-		  <groupId>org.jfrog.buildinfo</groupId>
-    	  <artifactId>artifactory-maven-plugin</artifactId>
-    	  <version>2.6.1</version>
-    	  <inherited>false</inherited>
-    	  <executions>
-          	  <execution>
-            	  <id>build-info</id>
-            	  <goals>
-                	  <goal>publish</goal>
-            	  </goals>
-            	  <configuration>                          
-                	  <publisher>
-                    	  <contextUrl>${env.MAVEN_REPO_URL}</contextUrl>
-                    	  <username>${env.MVN_REPO_USER}</username>
-                    	  <password>${env.MVN_REPO_PWD}</password>
-                    	  <repoKey>${env.MAVEN_LIB_RLSE_REPO}</repoKey>
-                    	  <snapshotRepoKey>${env.MAVEN_LIB_SNPST_REPO}</snapshotRepoKey>
-                	  </publisher>
-            	  </configuration>
-        	  </execution>
-    	  </executions>
-	  </plugin>
       
     </plugins>
   </build>
