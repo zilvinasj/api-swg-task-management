@@ -10,7 +10,7 @@
   <properties>
     <java.version>1.8</java.version>
     <swagger.codegen.version>2.2.3</swagger.codegen.version>
-    <swagger.version>2.9.2</swagger.version>
+    <swagger.version>2.10.0</swagger.version>
     <swagger.inputSpec>src/main/resources/swagger.yaml</swagger.inputSpec>
     <swagger.modelPackage>com.demo.api.taskmanagement.swagger.model</swagger.modelPackage>
     <swagger.apiPackage>com.demo.api.taskmanagement.swagger.api</swagger.apiPackage>
